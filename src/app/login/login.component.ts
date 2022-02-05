@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -12,14 +12,16 @@ export class LoginComponent {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private authService: AuthService) { }
 
   signIn(credentials: any) {
     this.authService.login(credentials)
       .subscribe((result: any) => {
-        if (result)
-          this.router.navigate(['/']);
-        else
+        if (result) {
+          let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+          this.router.navigate([returnUrl || '/']);
+        } else
           this.invalidLogin = true;
       });
   }

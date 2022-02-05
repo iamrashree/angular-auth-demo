@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +13,10 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { OrderService } from './services/order.service';
 import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { fakeBackendProvider } from './helpers/fake-backend';
+import { AuthGuard } from './services/auth-guard.service';
+import { AdminAuthGuard } from './services/admin-auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -32,12 +35,22 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
-      { path: 'admin', component: AdminComponent },
+      { 
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [AuthGuard, AdminAuthGuard]
+      },
       { path: 'login', component: LoginComponent },
       { path: 'no-access', component: NoAccessComponent }
     ])
   ],
-  providers: [AuthService, OrderService],
+  providers: [AuthService, 
+    OrderService,
+    AuthGuard,
+    AdminAuthGuard,
+    fakeBackendProvider
+   
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
