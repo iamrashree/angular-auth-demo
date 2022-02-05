@@ -4,24 +4,19 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm install` and `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Key Points - Authentication And Authorization
+- Used JWTs (Json Web Tokens) to implement authentication and authorization in angular application
+- JWTs have a header, payload & a digistal signature, i.e based on combination of header and payload and it is generated based on the secret, this secret is known only on the server
+- jwt.io, where we have JWT debugger as well as library, we can use based on the client and te server.
+- NPM - @auth0/angular-jwt
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Client side
+- Show/Hide various elements on a page depending on the authentication status of the user wheather they are logged in or not or may be logged in but they are not part of the specific route
+- we used ngIf directive to hide /show various part of the page, BTW we should never ever have sensitive information on the client, because malicious user can look into DOM and get hidded data.
+- protect routes using guards
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# Server side
+- Protect API endpoints for un authorized access, once again to do that we can use JWT
+- So on these API endpoint we should expect Authorization header with valid JWT in the request header
